@@ -6,15 +6,8 @@ from core.colors import end, red, white, bad, info
 
 # Just a fancy ass banner
 print('''%s
-\tXSStrike %sv3.1.5
+\txssniper %sv3.1.5
 %s''' % (red, white, end))
-
-# NOTE: this project is now branded "xssniper". xsstrike.py is kept as a
-# backward-compatible alias with identical behavior -- new usage should
-# prefer `python xssniper.py`. This notice is the only change in this file.
-print('%s Heads up: this tool is now called xssniper. `xsstrike.py` still '
-     'works exactly as before, but `xssniper.py` is the preferred entrypoint '
-     'going forward.' % info)
 
 try:
     import concurrent.futures
@@ -28,10 +21,10 @@ try:
         if(ret_code != 0):
             print('%s fuzzywuzzy installation failed.' % bad)
             quit()
-        print ('%s fuzzywuzzy has been installed, restart XSStrike.' % info)
+        print ('%s fuzzywuzzy has been installed, restart xssniper.' % info)
         quit()
 except ImportError:  # throws error in python2
-    print('%s XSStrike isn\'t compatible with python2.\n Use python > 3.4 to run XSStrike.' % bad)
+    print('%s xssniper isn\'t compatible with python2.\n Use python > 3.4 to run xssniper.' % bad)
     quit()
 
 # Let's import whatever we need from standard lib
@@ -49,7 +42,7 @@ from core.encoders import get_encoder
 
 # Processing command line arguments, where dest var names will be mapped to local vars with the same name
 parser = argparse.ArgumentParser(
-    description='XSStrike - Advanced XSS Detection Suite')
+    description='xssniper (formerly XSStrike) - Advanced XSS Detection Suite')
 
 # NEW: --config, parsed and applied as defaults before the "real" parse below
 parser.add_argument('--config', help='path to a YAML or JSON config file whose '
