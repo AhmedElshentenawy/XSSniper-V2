@@ -1,0 +1,9 @@
+{
+  "delay": 0,
+  "timeout": 10,
+  "threadCount": 10,
+  "level": 2,
+  "skip": false,
+  "skipDOM": false,
+  "console_log_level": "INFO"
+}

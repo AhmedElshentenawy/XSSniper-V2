@@ -1,0 +1,23 @@
+from core.encoders import base64, urlEncode, get_encoder
+
+
+def test_base64_roundtrip():
+    original = 'v3dm0s'
+    encoded = base64(original)
+    assert encoded != original
+    decoded = base64(encoded)
+    assert decoded == original
+
+
+def test_url_encode_roundtrip():
+    original = '<script>alert(1)</script>'
+    encoded = urlEncode(original)
+    assert encoded != original
+    decoded = urlEncode(encoded)
+    assert decoded == original
+
+
+def test_get_encoder_resolution():
+    assert get_encoder('base64') is base64
+    assert get_encoder('url') is urlEncode
+    assert get_encoder('nonexistent') is False

@@ -1,0 +1,11 @@
+# Example config overlay for XSStrike/xssniper.
+# Run with: python xsstrike.py --config xssniper.yaml
+# Any of these can still be overridden on the command line.
+
+delay: 0
+timeout: 10
+threadCount: 10
+level: 2
+skip: false
+skipDOM: false
+console_log_level: INFO

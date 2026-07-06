@@ -1,0 +1,32 @@
+import argparse
+import json
+import os
+import tempfile
+
+from core.configLoader import load_config, apply_config_defaults
+
+
+def test_load_json_config():
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        json.dump({'delay': 5, 'threadCount': 20}, f)
+        path = f.name
+    try:
+        config = load_config(path)
+        assert config == {'delay': 5, 'threadCount': 20}
+    finally:
+        os.remove(path)
+
+
+def test_load_missing_file_returns_empty():
+    assert load_config('/no/such/file.json') == {}
+
+
+def test_apply_config_defaults_overrides_known_keys():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--delay', dest='delay', type=int, default=0)
+    parser.add_argument('--threads', dest='threadCount', type=int, default=10)
+
+    apply_config_defaults(parser, {'delay': 5, 'unknownKey': 'ignored'})
+    args = parser.parse_args([])
+    assert args.delay == 5
+    assert args.threadCount == 10  # untouched, no override supplied
