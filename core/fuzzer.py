@@ -12,15 +12,16 @@ from core.log import setup_logger
 logger = setup_logger(__name__)
 
 
+
 def fuzzer(url, params, headers, GET, delay, timeout, WAF, encoding):
     for fuzz in fuzzes:
         if delay == 0:
             delay = 0
         t = delay + randint(delay, delay * 2) + counter(fuzz)
         sleep(t)
+        if encoding:
+            fuzz = encoding(unquote(fuzz))
         try:
-            if encoding:
-                fuzz = encoding(unquote(fuzz))
             data = replaceValue(params, xsschecker, fuzz, copy.deepcopy)
             response = requester(url, data, headers, GET, delay/2, timeout)
         except:
@@ -41,13 +42,10 @@ def fuzzer(url, params, headers, GET, delay, timeout, WAF, encoding):
             except:
                 logger.error('\nLooks like WAF has blocked our IP Address. Sorry!')
                 break
-        if encoding:
-            fuzz = encoding(fuzz)
         if fuzz.lower() in response.text.lower():  # if fuzz string is reflected in the response
             result = ('%s[passed]  %s' % (green, end))
-        # if the server returned an error (Maybe WAF blocked it)
         elif str(response.status_code)[:1] != '2':
             result = ('%s[blocked] %s' % (red, end))
-        else:  # if the fuzz string was not reflected in the response completely
+        else:
             result = ('%s[filtered]%s' % (yellow, end))
         logger.info('%s %s' % (result, fuzz))
